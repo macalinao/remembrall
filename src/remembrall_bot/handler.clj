@@ -6,6 +6,8 @@
 
 (defroutes app-routes
   (GET "/" [] "Hello World")
+  (GET "/asdf" [] "Hello World")
+  (POST "/webhook" [] "Hello my little friend")
   (route/not-found "Not Found"))
 
 (def app
@@ -16,5 +18,5 @@
                                :join? false}))
 
 (defn -main []
-  (let [port (Integer. (or (System/getenv "PORT") "8080"))]
+  (let [port (Integer. (or (System/getenv "PORT") "3000"))]
     (start port)))
