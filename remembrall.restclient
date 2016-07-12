@@ -1,0 +1,5 @@
+# Rest client file for Remembrall.
+:base = http://localhost:3000
+
+# Webhook test
+POST :base/webhook
