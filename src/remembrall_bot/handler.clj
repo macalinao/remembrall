@@ -3,19 +3,30 @@
             [compojure.handler :as handler]
             [compojure.route :as route]
             [ring.middleware.json :refer [wrap-json-body]]
-            [remembrall-bot.messenger :refer :all]
+            [clojure.data.json :as json]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
             [ring.adapter.jetty :as ring]
             [clojure.core.match :refer [match]]
-            [environ.core :refer [env]]))
+            [environ.core :refer [env]]
+            [clj-http.client :as client]))
 
 (def access-token (env :access-token))
 (def verify-token (env :verify-token))
+(def messages-endpoint "https://graph.facebook.com/v2.6/me/messages")
+
+(defn send-message [recipient message]
+  (client/post messages-endpoint
+               {:query-params {"access_token" access-token}
+                :body (json/write-str {:recipient {:id recipient}
+                                       :message message})
+                :content-type :json
+                :throw-exceptions false}))
+
+(defn send-text [recipient text]
+  (send-message recipient {:text text}))
 
 (defn respond-message [{:keys [message sender recipient timestamp]}]
-  (send-text {:access-token access-token
-              :sender sender
-              :text message}))
+  (send-text (:id sender) message))
 
 
 (defroutes app-routes
@@ -30,9 +41,9 @@
       {:status 403 :body "Failed validation."}))
 
   (POST "/webhook" {body :body}
-    (match body
-           [{:message _}] (respond-message body)
-           :else {:status 400 :body "Invalid "}))
+    (match [body]
+           [{:message _}] (str (respond-message body))
+           :else {:status 400 :body "Invalid body"}))
 
   (route/not-found "Not Found"))
 
