@@ -6,3 +6,9 @@ GET :base/webhook?hub.mode=subscribe&hub.verify_token=orworse_exp3lled!&hub.chal
 
 # Webhook test
 POST :base/webhook
+Content-Type: application/json
+{
+"entry": [
+  {
+  }
+]
