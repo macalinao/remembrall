@@ -10,7 +10,7 @@ POST :base/webhook
 Content-Type: application/json
 {
   "sender":{
-    "id":"USER_ID"
+    "id":"258076807906010"
   },
   "recipient":{
     "id":"PAGE_ID"

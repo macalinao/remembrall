@@ -26,8 +26,7 @@
   (send-message recipient {:text text}))
 
 (defn respond-message [{message :message sender :sender}]
-  (send-text (:id sender) message))
-
+  (send-text (:id sender) (:text message)))
 
 (defroutes app-routes
   (GET "/" [] "Hello World")
