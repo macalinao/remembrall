@@ -1,5 +1,6 @@
 # Rest client file for Remembrall.
 :base = http://localhost:3000
+:base = http://remembrall-bot.herokuapp.com
 
 # Webhook fb
 GET :base/webhook?hub.mode=subscribe&hub.verify_token=orworse_exp3lled!&hub.challenge=test

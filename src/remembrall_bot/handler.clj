@@ -25,7 +25,7 @@
 (defn send-text [recipient text]
   (send-message recipient {:text text}))
 
-(defn respond-message [{:keys [message sender recipient timestamp]}]
+(defn respond-message [{message :message sender :sender}]
   (send-text (:id sender) message))
 
 
